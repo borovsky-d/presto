@@ -119,6 +119,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -1458,7 +1459,8 @@ public class OrcTester
                         new DataSize(1, MEGABYTE),
                         MAX_BLOCK_SIZE,
                         false,
-                        mapNullKeysEnabled),
+                        mapNullKeysEnabled,
+                        TimeUnit.MILLISECONDS),
                 cacheable,
                 new DwrfEncryptionProvider(new UnsupportedEncryptionLibrary(), new TestingEncryptionLibrary()));
 
@@ -1584,7 +1586,8 @@ public class OrcTester
                         new DataSize(1, MEGABYTE),
                         MAX_BLOCK_SIZE,
                         false,
-                        mapNullKeysEnabled),
+                        mapNullKeysEnabled,
+                        TimeUnit.MILLISECONDS),
                 false,
                 new DwrfEncryptionProvider(new UnsupportedEncryptionLibrary(), new TestingEncryptionLibrary()));
 

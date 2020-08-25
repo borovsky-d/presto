@@ -15,6 +15,8 @@ package com.facebook.presto.orc;
 
 import io.airlift.units.DataSize;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.util.Objects.requireNonNull;
 
 public class OrcRecordReaderOptions
@@ -23,18 +25,25 @@ public class OrcRecordReaderOptions
     private final DataSize tinyStripeThreshold;
     private final DataSize maxBlockSize;
     private final boolean mapNullKeysEnabled;
+    private final TimeUnit timestampTimeUnit;
 
     public OrcRecordReaderOptions(OrcReaderOptions options)
     {
-        this(options.getMaxMergeDistance(), options.getTinyStripeThreshold(), options.getMaxBlockSize(), options.mapNullKeysEnabled());
+        this(options.getMaxMergeDistance(), options.getTinyStripeThreshold(), options.getMaxBlockSize(), options.mapNullKeysEnabled(), options.timestampTimeUnit());
     }
 
-    public OrcRecordReaderOptions(DataSize maxMergeDistance, DataSize tinyStripeThreshold, DataSize maxBlockSize, boolean mapNullKeysEnabled)
+    public OrcRecordReaderOptions(
+            DataSize maxMergeDistance,
+            DataSize tinyStripeThreshold,
+            DataSize maxBlockSize,
+            boolean mapNullKeysEnabled,
+            TimeUnit timestampTimeUnit)
     {
         this.maxMergeDistance = requireNonNull(maxMergeDistance, "maxMergeDistance is null");
         this.maxBlockSize = requireNonNull(maxBlockSize, "maxBlockSize is null");
         this.tinyStripeThreshold = requireNonNull(tinyStripeThreshold, "tinyStripeThreshold is null");
         this.mapNullKeysEnabled = mapNullKeysEnabled;
+        this.timestampTimeUnit = requireNonNull(timestampTimeUnit);
     }
 
     public DataSize getMaxMergeDistance()
@@ -55,5 +64,10 @@ public class OrcRecordReaderOptions
     public boolean mapNullKeysEnabled()
     {
         return mapNullKeysEnabled;
+    }
+
+    public TimeUnit timestampTimeUnit()
+    {
+        return timestampTimeUnit;
     }
 }

@@ -15,6 +15,8 @@ package com.facebook.presto.orc;
 
 import io.airlift.units.DataSize;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.util.Objects.requireNonNull;
 
 public class OrcReaderOptions
@@ -24,19 +26,27 @@ public class OrcReaderOptions
     private final DataSize maxBlockSize;
     private final boolean zstdJniDecompressionEnabled;
     private final boolean mapNullKeysEnabled;
+    private final TimeUnit timestampTimeUnit;
 
     public OrcReaderOptions(DataSize maxMergeDistance, DataSize tinyStripeThreshold, DataSize maxBlockSize, boolean zstdJniDecompressionEnabled)
     {
-        this(maxMergeDistance, tinyStripeThreshold, maxBlockSize, zstdJniDecompressionEnabled, false);
+        this(maxMergeDistance, tinyStripeThreshold, maxBlockSize, zstdJniDecompressionEnabled, false, TimeUnit.MILLISECONDS);
     }
 
-    public OrcReaderOptions(DataSize maxMergeDistance, DataSize tinyStripeThreshold, DataSize maxBlockSize, boolean zstdJniDecompressionEnabled, boolean mapNullKeysEnabled)
+    public OrcReaderOptions(
+            DataSize maxMergeDistance,
+            DataSize tinyStripeThreshold,
+            DataSize maxBlockSize,
+            boolean zstdJniDecompressionEnabled,
+            boolean mapNullKeysEnabled,
+            TimeUnit timestampTimeUnit)
     {
         this.maxMergeDistance = requireNonNull(maxMergeDistance, "maxMergeDistance is null");
         this.maxBlockSize = requireNonNull(maxBlockSize, "maxBlockSize is null");
         this.tinyStripeThreshold = requireNonNull(tinyStripeThreshold, "tinyStripeThreshold is null");
         this.zstdJniDecompressionEnabled = zstdJniDecompressionEnabled;
         this.mapNullKeysEnabled = mapNullKeysEnabled;
+        this.timestampTimeUnit = requireNonNull(timestampTimeUnit, "timestampTimeUnit is null");
     }
 
     public DataSize getMaxMergeDistance()
@@ -62,5 +72,10 @@ public class OrcReaderOptions
     public boolean mapNullKeysEnabled()
     {
         return mapNullKeysEnabled;
+    }
+
+    public TimeUnit timestampTimeUnit()
+    {
+        return timestampTimeUnit;
     }
 }
